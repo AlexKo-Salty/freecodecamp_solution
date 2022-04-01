@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap" rel="stylesheet">
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Roboto;
+                text-align: center;
+            }
+
+            fieldset {
+                width:fit-content;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="title">Wow, What a Title</h1>
+        <p id="description">very helpful description</p>
+        <form id="survey-form">
+            <label id="name-label" for="name">Name</label><br>
+            <input type="text" id="name" placeholder="Enter Your Name" required><br>
+            <label id="email-label" for="email">Email</label><br>
+            <input type="email" id="email" placeholder="Enter Your Email" required><br>
+            <label id="number-label" for="number">Number</label><br>
+            <input type="number" id="number" min="100000000" max="999999999" placeholder="Enter Your Number" required><br>
+            <label id="dropdown-label" for="dropdown">Believe/Doubt?</label><br>
+            <select id="dropdown">
+                <option>Believe</option>
+                <option selected>Doubt</option>
+            </select><br>
+            <fieldset>
+                <label for="believe">
+                    <input id="believe" value="believe" type="radio" name="believe-doubt">believe
+                </label>
+                <label for="doubt">
+                    <input id="doubt" value="doubt" type="radio" name="believe-doubt">doubt
+                </label><br>
+            </fieldset>
+            <fieldset>
+                <label for="meow"><input id="meow" value="meow" type="checkbox" name="personality">Meow</label>
+                <label for="brak"><input id="brak" value="brak" type="checkbox" name="personality">Bark</label>
+                <label for="wtf"><input id="wtf" value="wtf" type="checkbox" name="personality">WTF</label><br>
+            </fieldset>
+            <label for="textarea">Comments:</label>
+            <textarea id="textarea">
+
+            </textarea>
+            <button id="submit" type="submit">Submit</button>
+        </form>
+    </body>
+</html>
+
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
