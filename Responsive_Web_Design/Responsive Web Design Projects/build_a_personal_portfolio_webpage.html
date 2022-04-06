@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap" rel="stylesheet">
+<html>
+    <head>
+        <style>
+            html {
+                scroll-padding-top: 100px; /* height of sticky header */
+            }
+
+            body {
+                font-family: Roboto;
+                margin: 0;
+                padding: 0;
+            }
+
+            code {
+                display: block;
+                background-color: lightgray;
+                border-radius: 5px;
+                padding: 15px;
+            }
+
+            main {
+                padding-top: 70px;
+                text-align: center;
+            }
+
+            .container {
+                display: grid;
+                grid-template-rows: auto auto;
+                grid-template-columns: 100%;
+                align-items: center;
+            }
+
+            section {
+                height: 100vh;
+                position: relative;
+            }
+
+            #navbar {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 9;
+            }
+
+            #nav-ul {
+                padding: 0px 0px 0px 0px;
+                display: flex;
+                justify-content: flex-end;
+                border-bottom: solid;
+                border-width: 2px;
+            }
+            
+            #nav-ul > header {
+                padding: 0 0 0 10px;
+            }
+
+            #nav-ul > li {
+                list-style: none;
+                padding: 0px 10px 5px 30px;
+                position: relative;
+            }
+
+            #nav-ul > li > a {
+                text-decoration: none;
+                color: #4d4e53;
+            }
+
+            .project-img {
+                height: 40%;
+                width: 40%;
+            }
+
+            @media only screen and (max-width: 815px) {
+
+                #navbar {
+                    border-right: none;
+                    border-bottom: solid;
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <nav id="navbar">
+                <ul id="nav-ul">
+                    <li><a class="nav-link" href="#welcome-section">About</a></li>
+                    <li><a class="nav-link" href="#projects">Projects</a></li>
+                    <li><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+                </ul>
+            </nav>
+            <main id="main">
+                <section class="main-section" id="welcome-section">
+                    <header><h1>Salty Here</h1></header>
+                    <p>Hongkonger, Programmer, Gamer. </p>
+                </section>
+                <section class="main-section" id="projects">
+                    <header><h1>Current Projects (Unfinished)</h1></header>
+                    <a href="https://codepen.io/alexko-salty/pen/RwxLbOJ">
+                        <img class="project-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.bwallpaperhd.com%2Fwp-content%2Fuploads%2F2019%2F04%2FAntarcticPenguinChicks-1024x768.jpg&f=1&nofb=1">
+                        <span class="project-tile">Tribute Page</span>
+                    </a>
+                </section>
+                <section class="main-section" id="contact">
+                    <header><h2>Contact Me</h2></header>
+                    <a href="https://github.com/AlexKo-Salty" id="profile-link" target="_blank">
+                        <img class="profile-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F2sxc.org%2FPortals%2F0%2Fadam%2FContent%2F4IqBjx3pXEC7a7-fVX2GBQ%2FImage%2Fgithub-logo.png%3Fw%3D1080%26scale%3Dboth%26quality%3D50&f=1&nofb=1">
+                        <span class="profile-tile">Github</span>
+                    </a>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>
+
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
