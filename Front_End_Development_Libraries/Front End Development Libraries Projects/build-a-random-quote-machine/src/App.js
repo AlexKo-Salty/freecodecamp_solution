@@ -1,25 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import quotes from "./quote.json";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" id="quote-box">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div id="text" className='App-QuoteBox'>
+          <h2>Edit <code>src/App.js</code> and save to reload.</h2>
+          <h4 id="author" className='App-QuoteAuthor'>Somebody</h4>
+          <div className="App-ButtonBox">
+          
+          </div>
+        </div>   
       </header>
     </div>
   );
+
 }
 
 export default App;
