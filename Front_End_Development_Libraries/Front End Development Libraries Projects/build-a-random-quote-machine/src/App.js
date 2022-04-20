@@ -5,8 +5,6 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faP,faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import React from 'react';
 
-const firstRender = false;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
