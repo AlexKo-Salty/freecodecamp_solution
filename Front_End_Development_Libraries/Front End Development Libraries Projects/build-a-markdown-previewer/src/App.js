@@ -13,8 +13,7 @@ Heres some code, \`<div></div>\`, between 2 backticks.
 // this is multi-line code:
 
 function ex(firstLine, lastLine) {
-  if (firstLine == '\`\`\`' 
-    && lastLine == '\`\`\`') {
+  if (firstLine == '\`\`\`'  && lastLine == '\`\`\`') {
     return multiLineCode;
   }
 }
@@ -70,11 +69,12 @@ class App extends React.Component {
     return (
       <div className="App">
         <div id="editorDiv">
-          <span>Input your marked here:</span>
-          <textarea id="editor" onChange={this.handleChange}>{this.state.markdownText}</textarea>
+          <span className="spanTitle">Marked Down</span>
+          <textarea id="editor" onChange={this.handleChange} value={this.state.markdownText}></textarea>
         </div>
+        <br />
         <div id="previewDiv">
-          <span>Preview</span>
+          <span  className="spanTitle">Preview</span>
           <div dangerouslySetInnerHTML={{__html: marked.parse(this.state.markdownText)}} id="preview"></div>
         </div>
       </div>

@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Q",
+        "src": "https://soundeffect-lab.info/sound/anime/mp3/incorrect1.mp3",
+        "desc": "Incorrect",
+        "keyvalue": 81
+    },
+    {
+        "name": "W",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/healer-damage2.mp3",
+        "desc": "W",
+        "keyvalue": 87
+    },
+    {
+        "name": "E",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/healer-damage1.mp3",
+        "desc": "E",
+        "keyvalue": 69
+    },
+    {
+        "name": "A",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/swordwoman-damage1.mp3",
+        "desc": "A",
+        "keyvalue": 65
+    },
+    {
+        "name": "S",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/swordwoman-damage2.mp3",
+        "desc": "S",
+        "keyvalue": 83
+    },
+    {
+        "name": "D",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/princess-damage1.mp3",
+        "desc": "D",
+        "keyvalue": 68
+    },
+    {
+        "name": "Z",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/princess-damage2.mp3",
+        "desc": "Z",
+        "keyvalue": 90
+    },
+    {
+        "name": "X",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/princess-death1.mp3",
+        "desc": "X",
+        "keyvalue": 88
+    },
+    {
+        "name": "C",
+        "src": "https://soundeffect-lab.info/sound/voice/mp3/game/necromancer-oldwoman-death1.mp3",
+        "desc": "C",
+        "keyvalue": 67
+    }
+]
