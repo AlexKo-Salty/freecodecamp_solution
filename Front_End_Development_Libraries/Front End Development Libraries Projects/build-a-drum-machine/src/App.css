@@ -2,5 +2,83 @@
   text-align: center;
   background-color: #6699CC;
   min-height: 100vh;
-  color: white;
+}
+
+#drum-machine {
+  max-width: 800px;
+  border: solid 2px  #003366;
+  display: inline-grid;
+  background-color: #FFCC66;
+  grid-template-areas:
+    'title title'
+    'pad display '
+}
+
+#drum-pad {
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  gap:20px;
+  padding: 20px;
+  grid-area: pad;
+}
+
+.drum-pad {
+  height: 130px;
+  width: 130px;
+  background-color: #111827;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: .75rem 1.2rem;
+  text-align: center;
+  text-decoration: none #6B7280 solid;
+  text-decoration-thickness: auto;
+  transition-duration: .2s;
+  transition-property: background-color,border-color,color,fill,stroke;
+  transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.drum-pad:hover {
+  background-color: #374151;
+}
+
+.drum-pad:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+#display {
+  grid-area: display;
+  min-width: 200px;
+}
+
+#title {
+  grid-area: title;
+}
+
+#display-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+p {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 768px) {
+  .drum-pad {
+    padding: .75rem 1.5rem;
+  }
 }

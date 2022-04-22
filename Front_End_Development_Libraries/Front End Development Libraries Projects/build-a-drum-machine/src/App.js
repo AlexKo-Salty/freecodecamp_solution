@@ -54,7 +54,7 @@ class DurmButton extends React.Component {
 //         <div id="drum-machine">         
 //           {sounds.map(s => <DurmButton drumbuttonname={s.name} drumsound={s.src} desc={s.desc} action={this.displayHandler} keyvalue={s.keyvalue} />)}
 //         </div>
-//         <p id="display">{this.state.currentPlayed}</p>
+//         <p id="display">{this.state.currentPlayed}n</p>
 //       </div>
 //     );
 //   }
@@ -64,9 +64,18 @@ const App = function() {
   return (
     <div className="App">
       <div id="drum-machine">
-        {sounds.map(s => <DurmButton drumbuttonname={s.name} drumsound={s.src} desc={s.desc} keyvalue={s.keyvalue} />)}
+        <div id='title'>
+          <h2>Random(?) Drum Pad</h2>
+        </div>
+        <div id="drum-pad">
+          {sounds.map(s => <DurmButton drumbuttonname={s.name} drumsound={s.src} desc={s.desc} keyvalue={s.keyvalue} />)}
+        </div>
+        <div id="display-tile">
+          <p>Current Played:</p>
+          <p id="display"></p> 
+        </div>
       </div>
-      <p id="display"></p> 
+
     </div>
   );
 }
