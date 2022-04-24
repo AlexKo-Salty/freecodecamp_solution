@@ -1,0 +1,77 @@
+[
+    {
+        "buttonID": "zero",
+        "buttonDisplayValue": "0",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "one",
+        "buttonDisplayValue": "1",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "two",
+        "buttonDisplayValue": "2",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "three",
+        "buttonDisplayValue": "3",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "four",
+        "buttonDisplayValue": "4",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "five",
+        "buttonDisplayValue": "5",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "six",
+        "buttonDisplayValue": "6",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "seven",
+        "buttonDisplayValue": "7",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "eight",
+        "buttonDisplayValue": "8",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "nine",
+        "buttonDisplayValue": "9",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "zero",
+        "buttonDisplayValue": "0",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "zero",
+        "buttonDisplayValue": "0",
+        "buttonStyle": "numButton"
+    },
+        {
+        "buttonID": "zero",
+        "buttonDisplayValue": "0",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "zero",
+        "buttonDisplayValue": "0",
+        "buttonStyle": "numButton"
+    },
+    {
+        "buttonID": "zero",
+        "buttonDisplayValue": "0",
+        "buttonStyle": "numButton"
+    }
+]
