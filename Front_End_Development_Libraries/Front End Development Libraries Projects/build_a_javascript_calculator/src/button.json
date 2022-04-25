@@ -1,77 +1,87 @@
 [
     {
-        "buttonID": "zero",
-        "buttonDisplayValue": "0",
-        "buttonStyle": "numButton"
+        "buttonID": "clear",
+        "buttonDisplayValue": "AC",
+        "buttonStyle": "clear Button"
     },
     {
-        "buttonID": "one",
-        "buttonDisplayValue": "1",
-        "buttonStyle": "numButton"
+        "buttonID": "divide",
+        "buttonDisplayValue": "/",
+        "buttonStyle": "func Button"
     },
     {
-        "buttonID": "two",
-        "buttonDisplayValue": "2",
-        "buttonStyle": "numButton"
-    },
-    {
-        "buttonID": "three",
-        "buttonDisplayValue": "3",
-        "buttonStyle": "numButton"
-    },
-    {
-        "buttonID": "four",
-        "buttonDisplayValue": "4",
-        "buttonStyle": "numButton"
-    },
-    {
-        "buttonID": "five",
-        "buttonDisplayValue": "5",
-        "buttonStyle": "numButton"
-    },
-    {
-        "buttonID": "six",
-        "buttonDisplayValue": "6",
-        "buttonStyle": "numButton"
+        "buttonID": "multiply",
+        "buttonDisplayValue": "X",
+        "buttonStyle": "func Button"
     },
     {
         "buttonID": "seven",
         "buttonDisplayValue": "7",
-        "buttonStyle": "numButton"
+        "buttonStyle": "num Button"
     },
     {
         "buttonID": "eight",
         "buttonDisplayValue": "8",
-        "buttonStyle": "numButton"
+        "buttonStyle": "num Button"
     },
     {
         "buttonID": "nine",
         "buttonDisplayValue": "9",
-        "buttonStyle": "numButton"
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "subtract",
+        "buttonDisplayValue": "-",
+        "buttonStyle": "func Button"
+    },
+    {
+        "buttonID": "four",
+        "buttonDisplayValue": "4",
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "five",
+        "buttonDisplayValue": "5",
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "six",
+        "buttonDisplayValue": "6",
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "add",
+        "buttonDisplayValue": "+",
+        "buttonStyle": "func Button"
+    },
+    {
+        "buttonID": "one",
+        "buttonDisplayValue": "1",
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "two",
+        "buttonDisplayValue": "2",
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "three",
+        "buttonDisplayValue": "3",
+        "buttonStyle": "num Button"
+    },
+    {
+        "buttonID": "equals",
+        "buttonDisplayValue": "=",
+        "buttonStyle": "equal Button"
     },
     {
         "buttonID": "zero",
         "buttonDisplayValue": "0",
-        "buttonStyle": "numButton"
+        "buttonStyle": "zero Button"
     },
     {
-        "buttonID": "zero",
-        "buttonDisplayValue": "0",
-        "buttonStyle": "numButton"
-    },
-        {
-        "buttonID": "zero",
-        "buttonDisplayValue": "0",
-        "buttonStyle": "numButton"
-    },
-    {
-        "buttonID": "zero",
-        "buttonDisplayValue": "0",
-        "buttonStyle": "numButton"
-    },
-    {
-        "buttonID": "zero",
-        "buttonDisplayValue": "0",
-        "buttonStyle": "numButton"
+        "buttonID": "decimal",
+        "buttonDisplayValue": ".",
+        "buttonStyle": "func Button"
     }
 ]
