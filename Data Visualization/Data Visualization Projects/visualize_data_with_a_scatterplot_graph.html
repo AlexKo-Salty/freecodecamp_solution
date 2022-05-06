@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualize Data with a Bar Chart</title>
+        <style>
+            .Container {
+                margin: auto;
+                text-align: center;
+            }
+            #tooltip {   
+                position: absolute;           
+                text-align: center;           
+                width: 150px;                  
+                height: auto;                 
+                padding: 2px;             
+                font: 12px sans-serif;        
+                background: lightsteelblue;   
+                border: 0px;      
+                border-radius: 8px;           
+                pointer-events: none;
+                white-space: pre-line;         
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.4/d3.min.js" charset="utf-8"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded',async function(){
+                let dataset = "";
+                await fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json')
+                    .then(response => response.json())
+                    .then(result => {
+                        dataset = result;
+                    })
+
+                const w = 800;
+                const h = 700;
+                // const padding = 60;
+                // const barWidth = (w - padding * 2) / dataset.length;
+
+                //Format Dataset to scale
+                let formattedTime = dataset.map(d => {
+                    let mins = d.Time.split(":")[0];
+                    let seconds = d.Time.split(":")[1];
+                    return new Date(1970,1,1,0,mins,seconds,0);
+                });
+
+                const svg = d3.select(".ScatterPlotContainer")
+                    .append("svg")
+                    .attr("width",w + 100)
+                    .attr("height",h + 60);
+                
+                const minTime = d3.min(formattedTime, (t) => t)
+                
+                const yScale = d3.scaleTime()
+                    .domain([minTime.setSeconds(minTime.getSeconds()-3), d3.max(formattedTime, (t) => t)])
+                    .range([0, h]);
+                
+                const svgyScale = d3.scaleLinear()
+                    .domain([d3.min(formattedTime, (t) => t), d3.max(formattedTime, (t) => t)])
+                    .range([h, 0]);
+                     
+                const xScale = d3.scaleLinear()
+                    .domain([d3.min(dataset, (d) => d.Year - 1), d3.max(dataset, (d) => d.Year)])
+                    .range([0, w]);
+
+
+                const xAxis = d3.axisBottom().scale(xScale).ticks(8).tickFormat((d,i) => d.toString())
+                const yAxis = d3.axisLeft().scale(yScale).tickFormat((d,i) => {
+                    let date = new Date(d);
+                    return date.getMinutes() + ":" + (date.getSeconds() <= 9 ? '0' + date.getSeconds() : date.getSeconds());
+                })
+
+
+                var div = d3.select("body").append("div")   
+                    .attr("id", "tooltip")               
+                    .style("opacity", 0);
+
+                svg.append("g")
+                    .attr("id","x-axis")
+                    .attr("transform", "translate(60," + h + ")")
+                    .call(xAxis);
+
+                    // Add your code below this line
+                svg.append("g")
+                    .attr("id","y-axis")
+                    .attr("transform", "translate(60," + 0 + ")")
+                    .call(yAxis);
+                    // Add your code above this line  
+
+                svg.selectAll("circle")
+                    .data(dataset)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", (d, i) => xScale(d.Year) + 60)
+                    .attr("cy", (d, i) => {
+                        let mins = d.Time.split(":")[0];
+                        let seconds = d.Time.split(":")[1];
+                        return yScale(new Date(1970,1,1,0,mins,seconds,0));
+                    })
+                    .attr("r", (d) => 5)
+                    .attr("fill", (d) => d.URL === "" ? "navy" : "red")
+                    .attr("class", "dot")
+                    .attr("data-xvalue", (d, i) => d.Year)
+                    .attr("data-yvalue", (d, i) =>  {
+                        let mins = d.Time.split(":")[0];
+                        let seconds = d.Time.split(":")[1];
+                        return new Date(1970,1,1,0,mins,seconds,0);
+                    })
+                    .on("mouseover", function(event,d) {      
+                        var x = event.x;
+                        var y = event.y + 30;
+                        div.style("opacity",0.9);
+                        div.attr('data-year', d.Year);
+                        div.style('left', x + "px");
+                        div.style('top',y + "px");
+                        div.text(d.Name + ": " + d.Nationality + "\r\n" + 
+                        "Year: " + d.Year + ", Time: " + d.Time + 
+                        (d.URL === "" ? "" : "\r\n" + d.Doping))
+                    })
+                    .on("mouseout", function(d) {       
+                        div.transition()        
+                            .style("opacity", 0);   
+                    });
+
+                    svg.append("rect").attr("x",700).attr("y",160).attr("width", 18).attr("height",18).style("fill", "navy")
+                    svg.append("text").attr("x", 725).attr("y", 170).text("No doping allegations").attr("id","legend").style("font-size", "13px").attr("alignment-baseline","middle")
+                    svg.append("rect").attr("x",700).attr("y",180).attr("width", 18).attr("height",18).style("fill", "red")
+                    svg.append("text").attr("x", 725).attr("y", 190).text("Doping allegations").attr("id","legend").style("font-size", "13px").attr("alignment-baseline","middle")
+            })
+        </script>
+    </head>
+    <body>
+        <div class="Container">
+            <h1 id="title">Doping in Professional Bicycle Racing</h1>
+            <h2>35 Fastest times up Alpe d'Huez</h2>
+            <div class="ScatterPlotContainer">
+
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
