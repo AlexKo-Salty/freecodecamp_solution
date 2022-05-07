@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualize Data with a Bar Chart</title>
+        <style>
+            .Container {
+                margin: auto;
+                text-align: center;
+            }
+            #tooltip {   
+                position: absolute;           
+                text-align: center;           
+                width: 150px;                  
+                height: 36px;                 
+                padding: 2px;             
+                font: 16px sans-serif;        
+                background: lightsteelblue;   
+                border: 0px;      
+                border-radius: 8px;           
+                pointer-events: none;         
+            }
+            .bar:hover {
+                fill: brown;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.4/d3.min.js" charset="utf-8"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded',async function(){
+                let dataset = "";
+                await fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json')
+                    .then(response => response.json())
+                    .then(result => {
+                        dataset = result;
+                    })
+                    
+                let baseTemperature = dataset.baseTemperature;
+                let data = dataset.monthlyVariance;
+                const w = 1500;
+                const h = 700;
+                const padding = 60;
+                const barWidth = (w) / (data.length / 12);
+                const barHeight = h / 12;
+
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+                const svg = d3.select(".BarchartContainer")
+                    .append("svg")
+                    .attr("width",w + 100)
+                    .attr("height",h + 60);
+
+                //Format Data to scale
+                let formattedDate = data.map(d => new Date(d.year,d.month - 1,1,0,0,0,0));
+
+                const xScale = d3.scaleTime()
+                     .domain([d3.min(formattedDate, (t) => t), d3.max(formattedDate, (t) => t)])
+                     .range([0, w]);
+
+                const yScale = d3.scaleBand()
+                                .domain([0,1,2,3,4,5,6,7,8,9,10,11])
+                                .range([0, h]);
+                
+                const svgyScale = d3.scaleBand()
+                                .domain([0,1,2,3,4,5,6,7,8,9,10,11])
+                                .range([h, 0]);
+
+                const xAxis = d3.axisBottom().scale(xScale).ticks(d3.timeYear.every(10)).tickFormat((d,i) => {
+                    let date = new Date(d);
+                    return date.getFullYear();
+                })
+                const yAxis = d3.axisLeft().scale(svgyScale).tickFormat((d,i) => {
+                    return monthNames[d];
+                })
+
+
+                var div = d3.select("body").append("div")   
+                    .attr("id", "tooltip")               
+                    .style("opacity", 0);
+
+                svg.append("g")
+                    .attr("id","x-axis")
+                    .attr("transform", "translate(60," + h + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("id","y-axis")
+                    .attr("transform", "translate(60," + 0 + ")")
+                    .call(yAxis);
+
+                svg.selectAll("rect")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", (d, i) => xScale(new Date(d.year,1,1,0,0,0,0)) + 60)
+                    .attr("y", (d, i) => h - yScale(d.month))
+                    .attr("width", barWidth)
+                    .attr("height", barHeight)
+                    .attr("fill", (d, i) => {
+                        if (d.variance < -3.66) {
+                            return "navy" 
+                        } else if (d.variance < -1.46) {
+                            return "blue"
+                        } else if (d.variance <  2.27) {
+                            return "orange"
+                        } else {
+                            return "red"
+                        }
+                    })
+                    .attr("class", "cell")
+                    .attr("data-month", (d, i) => d.month - 1)
+                    .attr("data-year", (d, i) => d.year)
+                    .attr("data-temp", (d, i) => d.variance)
+                    .on("mouseover", function(event,d) {      
+                        var x = event.x;
+                        var y = event.y + 30;
+                        div.style("opacity",0.9);
+                        div.attr('data-year', d.year);
+                        div.style('position','absolute');
+                        div.style('left', x + "px");
+                        div.style('top',y + "px");
+                        div.text(d.year + "-" + d.month)
+                    })
+                    .on("mouseout", function(d) {       
+                        div.transition()        
+                            .style("opacity", 0);   
+                    });
+
+                    const legend = d3.select(".LegandContainer")
+                    .append("svg")
+                    .attr("id","legend")
+                    .attr("width",500)
+                    .attr("height",100);
+                    legend.append("rect").attr("x",0).attr("y",0).attr("width", 18).attr("height",18).style("fill", "navy")
+                    legend.append("text").attr("x", 25).attr("y", 9).text("< -3.66").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",70).attr("y",0).attr("width", 18).attr("height",18).style("fill", "blue")
+                    legend.append("text").attr("x", 95).attr("y", 9).text("< -1.46").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",0).attr("y",0).attr("width", 18).attr("height",18).style("fill", "orange")
+                    legend.append("text").attr("x", 25).attr("y", 9).text("< -3.66").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",70).attr("y",0).attr("width", 18).attr("height",18).style("fill", "red")
+                    legend.append("text").attr("x", 95).attr("y", 9).text("< -1.46").style("font-size", "13px").attr("alignment-baseline","middle")
+            })
+        </script>
+    </head>
+    <body>
+        <div class="Container">
+            <h1 id="title">United State GDP</h1>
+            <h2 id="description">DLLM</h2>
+            <div class="BarchartContainer">
+
+            </div>
+            <div class="LegandContainer">
+
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
