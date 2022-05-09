@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualize Data with a Choropleth Map</title>
+        <style>
+            .Container {
+                margin: auto;
+                text-align: center;
+            }
+            #tooltip {   
+                position: absolute;           
+                text-align: center;           
+                width: auto;                  
+                height: auto;                 
+                padding: 2px;             
+                font: 12px sans-serif;        
+                background: #ffffa1;   
+                border: 0px;      
+                border-radius: 8px;           
+                pointer-events: none;
+                white-space: pre-line;         
+            }
+            path {
+                stroke: #fff;
+                stroke-width: .5px;
+            }
+            
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.4/d3.min.js" charset="utf-8"></script>
+        <script src="https://unpkg.com/topojson@3"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded',async function(){
+                let dataset = ""
+                    mapdata = "";
+                await fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json')
+                    .then(response => response.json())
+                    .then(result => {
+                        dataset = result;
+                    })
+                
+                await fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json')
+                    .then(response => response.json())
+                    .then(result => {
+                        mapdata = result;
+                    })
+                
+                const w = 1000;
+                const h = 550;
+
+                let path = d3.geoPath().projection(null);
+
+                var div = d3.select("body").append("div")   
+                    .attr("id", "tooltip")               
+                    .style("opacity", 0);
+
+                const svg = d3.select(".ChoroplethMapContainer")
+                    .append("svg")
+                    .attr("width",w + 100)
+                    .attr("height",h + 100)
+
+                svg.append("g")
+                    .selectAll("path")
+                    .data(topojson.feature(mapdata,mapdata.objects.counties).features)
+                    .enter()
+                    .append("path")
+                    .attr("d", path)
+                    .attr("class", "county")
+                    .attr("fill", (m) => {
+                        const found = dataset.find(d => d.fips === m.id)
+                        if (found.bachelorsOrHigher < 20) {
+                            return "#D4F1F4"
+                        } else if (found.bachelorsOrHigher < 40) {
+                            return "#75E6DA"
+                        } else if (found.bachelorsOrHigher < 60) {
+                            return "#189AB4"
+                        } else {
+                            return "#05445E"
+                        }
+                    })
+                    .attr("data-fips", (m) => {
+                        const found = dataset.find(d => d.fips === m.id)
+                        return found.fips;
+                    })
+                    .attr("data-education", (m) => {
+                        const found = dataset.find(d => d.fips === m.id)
+                        return found.bachelorsOrHigher;
+                    })
+                    .on("mouseover", function(event,m) {      
+                        let x = event.x;
+                        let y = event.y + 30;
+                        let d = dataset.find(d => d.fips === m.id);
+                        div.style("opacity",0.9);
+                        div.attr('data-education', d.bachelorsOrHigher);
+                        div.style('position','absolute');
+                        div.style('left', x + "px");
+                        div.style('top',y + "px");
+                        div.text(d.area_name + ", " + d.state + ": " + d.bachelorsOrHigher + "%")
+                    })
+                    .on("mouseout", function(d) {       
+                        div.style("opacity", 0);   
+                    });
+
+                    const legend = d3.select(".LegandContainer")
+                    .append("svg")
+                    .attr("id","legend")
+                    .attr("width",500)
+                    .attr("height",100);
+                    legend.append("rect").attr("x",70).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#D4F1F4")
+                    legend.append("text").attr("x", 95).attr("y", 9).text("< 20").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",150).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#75E6DA")
+                    legend.append("text").attr("x", 175).attr("y", 9).text("< 40").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",230).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#189AB4")
+                    legend.append("text").attr("x", 255).attr("y", 9).text("< 60").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",310).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#05445E")
+                    legend.append("text").attr("x", 335).attr("y", 9).text("> 60").style("font-size", "13px").attr("alignment-baseline","middle")
+            })
+        </script>
+    </head>
+    <body>
+        <div class="Container">
+            <h1 id="title">United States Educational Attainment</h1>
+            <h2 id="description">Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)</h2>
+            <div class="ChoroplethMapContainer">
+
+            </div>
+            <div class="LegandContainer"></div>
+        </div>
+    </body>
+</html>
+
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>

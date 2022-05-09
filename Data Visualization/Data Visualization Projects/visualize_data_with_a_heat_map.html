@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Visualize Data with a Bar Chart</title>
+        <title>Visualize Data with a Heat Map</title>
         <style>
             .Container {
                 margin: auto;
@@ -17,11 +17,13 @@
                 background: lightsteelblue;   
                 border: 0px;      
                 border-radius: 8px;           
-                pointer-events: none;         
+                pointer-events: none;
+                white-space: pre-line;            
             }
             .bar:hover {
                 fill: brown;
             }
+            .hidden {display:none}
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.4/d3.min.js" charset="utf-8"></script>
         <script>
@@ -61,7 +63,7 @@
                                 .range([0, h]);
                 
                 const svgyScale = d3.scaleBand()
-                                .domain([0,1,2,3,4,5,6,7,8,9,10,11])
+                                .domain([11,10,9,8,7,6,5,4,3,2,1,0])
                                 .range([h, 0]);
 
                 const xAxis = d3.axisBottom().scale(xScale).ticks(d3.timeYear.every(10)).tickFormat((d,i) => {
@@ -92,7 +94,7 @@
                     .enter()
                     .append("rect")
                     .attr("x", (d, i) => xScale(new Date(d.year,1,1,0,0,0,0)) + 60)
-                    .attr("y", (d, i) => h - yScale(d.month))
+                    .attr("y", (d, i) => yScale(d.month - 1))
                     .attr("width", barWidth)
                     .attr("height", barHeight)
                     .attr("fill", (d, i) => {
@@ -100,7 +102,7 @@
                             return "navy" 
                         } else if (d.variance < -1.46) {
                             return "blue"
-                        } else if (d.variance <  2.27) {
+                        } else if (d.variance <  1.77) {
                             return "orange"
                         } else {
                             return "red"
@@ -118,7 +120,7 @@
                         div.style('position','absolute');
                         div.style('left', x + "px");
                         div.style('top',y + "px");
-                        div.text(d.year + "-" + d.month)
+                        div.text(d.year + "-" + d.month + "\r\n" + "Variance: " + d.variance)
                     })
                     .on("mouseout", function(d) {       
                         div.transition()        
@@ -131,20 +133,20 @@
                     .attr("width",500)
                     .attr("height",100);
                     legend.append("rect").attr("x",0).attr("y",0).attr("width", 18).attr("height",18).style("fill", "navy")
-                    legend.append("text").attr("x", 25).attr("y", 9).text("< -3.66").style("font-size", "13px").attr("alignment-baseline","middle")
-                    legend.append("rect").attr("x",70).attr("y",0).attr("width", 18).attr("height",18).style("fill", "blue")
-                    legend.append("text").attr("x", 95).attr("y", 9).text("< -1.46").style("font-size", "13px").attr("alignment-baseline","middle")
-                    legend.append("rect").attr("x",0).attr("y",0).attr("width", 18).attr("height",18).style("fill", "orange")
-                    legend.append("text").attr("x", 25).attr("y", 9).text("< -3.66").style("font-size", "13px").attr("alignment-baseline","middle")
-                    legend.append("rect").attr("x",70).attr("y",0).attr("width", 18).attr("height",18).style("fill", "red")
-                    legend.append("text").attr("x", 95).attr("y", 9).text("< -1.46").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("text").attr("x", 25).attr("y", 9).text("< -3.66℃").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",80).attr("y",0).attr("width", 18).attr("height",18).style("fill", "blue")
+                    legend.append("text").attr("x", 105).attr("y", 9).text("< -1.46℃").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",160).attr("y",0).attr("width", 18).attr("height",18).style("fill", "orange")
+                    legend.append("text").attr("x", 185).attr("y", 9).text("< 2.27℃").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",240).attr("y",0).attr("width", 18).attr("height",18).style("fill", "red")
+                    legend.append("text").attr("x", 265).attr("y", 9).text("> 2.27℃").style("font-size", "13px").attr("alignment-baseline","middle")
             })
         </script>
     </head>
     <body>
         <div class="Container">
-            <h1 id="title">United State GDP</h1>
-            <h2 id="description">DLLM</h2>
+            <h1 id="title">Monthly Global Land-Surface Temperature</h1>
+            <h2 id="description">1753 - 2015: base temperature 8.66℃</h2>
             <div class="BarchartContainer">
 
             </div>
