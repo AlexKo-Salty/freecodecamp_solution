@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualize Data with a Tree Map</title>
+        <style>
+            .Container {
+                margin: auto;
+                text-align: center;
+            }
+            #tooltip {   
+                position: absolute;           
+                text-align: center;           
+                width: auto;                  
+                height: auto;                 
+                padding: 2px;             
+                font: 12px sans-serif;        
+                background: #ffffa1;   
+                border: 0px;      
+                border-radius: 8px;           
+                pointer-events: none;
+                white-space: pre-line;         
+            }
+            path {
+                stroke: #fff;
+                stroke-width: .5px;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.4/d3.min.js" charset="utf-8"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded',async function(){
+                let dataset = "";
+                await fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json')
+                    .then(response => response.json())
+                    .then(result => {
+                        dataset = result;
+                    });
+                
+                const w = 900;
+                const h = 900;
+
+                var div = d3.select("body").append("div")   
+                    .attr("id", "tooltip")               
+                    .style("opacity", 0);
+
+                const svg = d3.select(".TreeMapContainer")
+                    .append("svg")
+                    .attr("width",w + 100)
+                    .attr("height",h + 100)
+                
+                // Give the data to this cluster layout:
+                let root = d3.hierarchy(dataset).sum(function(d){ return d.value}) // Here the size of each leave is given in the 'value' field in input data
+
+                // Then d3.treemap computes the position of each element of the hierarchy
+                d3.treemap()
+                    .size([w, h])
+                    .padding(2)
+                    (root)
+                
+                 // use this information to add rectangles:
+                svg
+                    .selectAll("rect")
+                    .data(root.leaves())
+                    .enter()
+                    .append("rect")
+                        .attr('x', function(d) { return d.x0; })
+                        .attr('y', function(d) { return d.y0; })
+                        .attr('width', function(d) { return d.x1 - d.x0; })
+                        .attr('height', function(d) { return d.y1 - d.y0; })
+                        .attr('data-name', function(d) { return d.data.name; })
+                        .attr('data-category', function(d) { return d.data.category; })
+                        .attr('data-value', function(d) { return d.data.value; })
+                        .style("stroke", "black")
+                        .attr("fill", (d) => {
+                            switch (d.data.category) {
+                                case "PS":
+                                case "PS2":
+                                case "PS3":
+                                case "PS4":
+                                case "PSP":
+                                    return "#D4F1F4"
+                                    break;
+                                case "XB":
+                                case "X360":
+                                case "XOne":
+                                    return "#B4F8C8"
+                                    break;
+                                case "GB":
+                                case "DS":
+                                case "NES":
+                                case "Wii":
+                                case "GBA":
+                                case "SNES":
+                                case "GBA":
+                                case "3DS":
+                                case "N64":
+                                    return "#FCB5AC"
+                                    break;
+                                default:
+                                    return "#FBE7C6"
+                                    break;
+                            }
+                        })
+                        .attr('class', 'tile')
+                        .on("mouseover", function(event,d) {      
+                            let x = event.x;
+                            let y = event.y + 30;
+                            div.style("opacity",0.9);
+                            div.attr('data-value', d.data.value);
+                            div.style('position','absolute');
+                            div.style('left', x + "px");
+                            div.style('top',y + "px");
+                            div.text("Name: " + d.data.name + "\r\n" +
+                            "Category: " + d.data.category + "\r\n" +
+                            "Value: " + d.data.value)
+                        })
+                        .on("mouseout", function(d) {       
+                            div.style("opacity", 0);   
+                        });
+
+                //Wrap Label by every words
+                function wrap(text, width) {
+                    text.each(function () {
+                        var text = d3.select(this),
+                            words = text.text().split(/\s+/).reverse(),
+                            word,
+                            line = [],
+                            lineNumber = 0,
+                            lineHeight = 1.1, // ems
+                            x = text.attr("x"),
+                            y = text.attr("y"),
+                            dy = 0, //parseFloat(text.attr("dy")),
+                            tspan = text.text(null)
+                                        .append("tspan")
+                                        .attr("x", x)
+                                        .attr("y", y)
+                                        .attr("dy", dy + "em");
+                        while (word = words.pop()) {
+                            line.push(word);
+                            tspan.text(line.join(" "));
+                            if (tspan.node().getComputedTextLength() > width) {
+                                line.pop();
+                                tspan.text(line.join(" "));
+                                line = [word];
+                                tspan = text.append("tspan")
+                                            .attr("x", x)
+                                            .attr("y", y)
+                                            .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                                            .text(word);
+                            }
+                        }
+                    });
+                }
+
+                // and to add the text labels
+                svg
+                    .selectAll("text")
+                    .data(root.leaves())
+                    .enter()
+                    .append("text")
+                        .attr("x", function(d) { return d.x0 +5 })
+                        .attr("y", function(d){ return d.y0 + 10 })
+                        .attr('font-size',"10px")
+                        .attr("fill","black")
+                        .text(function(d){ return d.data.name.replace(" ","\r\n" ); })
+                        .call(wrap,50)
+
+                const legend = d3.select(".LegandContainer")
+                    .append("svg")
+                    .attr("id","legend")
+                    .attr("width",500)
+                    .attr("height",100);
+                    legend.append("rect").attr("x",70).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#FCB5AC").attr("class", "legend-item")
+                    legend.append("text").attr("x", 95).attr("y", 9).text("Nintendo").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",150).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#D4F1F4").attr("class", "legend-item")
+                    legend.append("text").attr("x", 175).attr("y", 9).text("Sony").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",230).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#B4F8C8").attr("class", "legend-item")
+                    legend.append("text").attr("x", 255).attr("y", 9).text("Microsoft").style("font-size", "13px").attr("alignment-baseline","middle")
+                    legend.append("rect").attr("x",310).attr("y",0).attr("width", 18).attr("height",18).style("fill", "#FBE7C6").attr("class", "legend-item")
+                    legend.append("text").attr("x", 335).attr("y", 9).text("Others").style("font-size", "13px").attr("alignment-baseline","middle")
+            })
+        </script>
+    </head>
+    <body>
+        <div class="Container">
+            <h1 id="title">Video Game Sales</h1>
+            <h2 id="description">Top 100 Most Sold Video Games Grouped by Platform</h2>
+            <div class="TreeMapContainer">
+
+            </div>
+            <div class="LegandContainer"></div>
+        </div>
+    </body>
+</html>
+
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
